@@ -117,35 +117,35 @@ resource "azuread_service_principal_password" "aks-sp-passwd" {
   end_date             = "2021-01-01T01:02:03Z" 
 }
 
-resource "tls_private_key" "ca" {
-  algorithm = "ECDSA"
-  ecdsa_curve = "P384"
-}
+# resource "tls_private_key" "ca" {
+#   algorithm = "ECDSA"
+#   ecdsa_curve = "P384"
+# }
 
-resource "tls_self_signed_cert" "self-signed" {
-  key_algorithm   = "ECDSA"
-  private_key_pem = tls_private_key.ca.private_key_pem
+# resource "tls_self_signed_cert" "self-signed" {
+#   key_algorithm   = "ECDSA"
+#   private_key_pem = tls_private_key.ca.private_key_pem
 
-  subject {
-    common_name  = "test.com"
-    organization = "ACME Examples, Inc"
-  }
+#   subject {
+#     common_name  = "test.com"
+#     organization = "ACME Examples, Inc"
+#   }
 
-  validity_period_hours = 8760
+#   validity_period_hours = 8760
 
-  allowed_uses = [
-    "key_encipherment",
-    "digital_signature",
-    "server_auth",
-  ]
-}
+#   allowed_uses = [
+#     "key_encipherment",
+#     "digital_signature",
+#     "server_auth",
+#   ]
+# }
 
-resource "azuread_service_principal_certificate" "aks-sp-cert" {
-  service_principal_id = azuread_service_principal.aks-sp.id
-  type                 = "AsymmetricX509Cert"
-  value                = tls_self_signed_cert.self-signed.cert_pem
-  end_date_relative    = "8759h"
-}
+# resource "azuread_service_principal_certificate" "aks-sp-cert" {
+#   service_principal_id = azuread_service_principal.aks-sp.id
+#   type                 = "AsymmetricX509Cert"
+#   value                = tls_self_signed_cert.self-signed.cert_pem
+#   end_date_relative    = "8759h"
+# }
 
 resource "azurerm_role_assignment" "contributor" {
   scope                       = azurerm_resource_group.app1-rg.id 

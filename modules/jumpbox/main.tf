@@ -1,10 +1,10 @@
 
-resource "azurerm_public_ip" "pip" {
-  name                = "vm-pip"
-  location            = var.location
-  resource_group_name = var.resource_group
-  allocation_method   = "Dynamic"
-}
+# resource "azurerm_public_ip" "pip" {
+#   name                = "vm-pip"
+#   location            = var.location
+#   resource_group_name = var.resource_group
+#   allocation_method   = "Dynamic"
+# }
 
 resource "azurerm_network_security_group" "vm_sg" {
   name                = "vm-sg"
