@@ -1,6 +1,10 @@
 app_rg = "AKS1-APP-RG"
-az_sp_app_id = "xxxxx-xxxxxx-xxxxxx-xxxxxx"
-az_sp_password = "xxxxxxzzzzzzyyyyyy"
+location = "usgovvirginia"
+aks_cp_version = "1.19.7"
+aks_blue_version = "1.19.7"
+aks_green_version = "1.19.7"
+az_sp_app_id = "XXXXXXXXXXXX"
+az_sp_password = "XXXXXXXXXXXXXXX"
 app_vnet_name = "vnet-spoke-app1"
 firewall_private_ip = "10.200.0.4"
 
