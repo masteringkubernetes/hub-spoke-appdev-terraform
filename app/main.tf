@@ -59,7 +59,7 @@ module "azure_aks" {
   source                            = "../modules/azure_aks"
   name                              = "bg-aks"
   container_registry_id             = azurerm_container_registry.acr.id 
-  control_plane_kubernetes_version  = "1.18.8"
+  control_plane_kubernetes_version  = var.aks_cp_version 
   resource_group_name               = var.app_rg
   location                          = local.location
   vnet_subnet_id                    = data.azurerm_subnet.app-vnet-clusternodes.id
@@ -98,7 +98,7 @@ module "azure_aks" {
     zones                           = ["1", "2", "3"]
     node_os                         = "Linux"
     azure_tags                      = null
-    pool_kubernetes_version         = "1.17.13" 
+    pool_kubernetes_version         = var.aks_blue_version 
   }
 
   # enable_green_pool=true will ensure 2 node pools exist (greensystem, greenuser)
@@ -119,7 +119,7 @@ module "azure_aks" {
     zones                           = ["1", "2", "3"]
     node_os                         = "Linux"
     azure_tags                      = null
-    pool_kubernetes_version         = "1.17.13" 
+    pool_kubernetes_version         = var.aks_green_version 
   }
 }
 

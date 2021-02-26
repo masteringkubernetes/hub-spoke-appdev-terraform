@@ -91,14 +91,12 @@ module "jumpbox" {
   resource_group          = azurerm_resource_group.app1-rg.name 
   vnet_id                 = module.app1_spoke_network.vnet_id
   subnet_id               = module.app1_spoke_network.subnet_ids["default"]
-  #dns_zone_name           = join(".", slice(split(".", module.azure_aks.private_fqdn), 1, length(split(".", module.azure_aks.private_fqdn)))) 
   dns_zone_name           = "privatelink.azure.net" 
   dns_zone_resource_group = azurerm_resource_group.app1-rg.name
   add_to_dns              = true
 
   depends_on = [azurerm_private_dns_zone.privatelink]
 }
-
 
 resource "azuread_application" "aks-app" {
   name                       = "${local.prefix}-aks-sp"
@@ -114,8 +112,15 @@ resource "azuread_service_principal" "aks-sp" {
 resource "azuread_service_principal_password" "aks-sp-passwd" {
   service_principal_id = azuread_service_principal.aks-sp.id
   value                = random_string.random.result
-  end_date             = "2021-01-01T01:02:03Z" 
+  end_date             = "2021-09-01T01:02:03Z" 
 }
+
+resource "azurerm_role_assignment" "contributor" {
+  scope                       = azurerm_resource_group.app1-rg.id 
+  role_definition_name        = "Contributor"
+  principal_id                = azuread_service_principal.aks-sp.id
+}
+
 
 # resource "tls_private_key" "ca" {
 #   algorithm = "ECDSA"
@@ -146,12 +151,6 @@ resource "azuread_service_principal_password" "aks-sp-passwd" {
 #   value                = tls_self_signed_cert.self-signed.cert_pem
 #   end_date_relative    = "8759h"
 # }
-
-resource "azurerm_role_assignment" "contributor" {
-  scope                       = azurerm_resource_group.app1-rg.id 
-  role_definition_name        = "Contributor"
-  principal_id                = azuread_service_principal.aks-sp.id
-}
 
 output "app-sp-id" {
   description = "Appid of SP"

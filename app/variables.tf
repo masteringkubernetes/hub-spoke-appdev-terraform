@@ -10,6 +10,11 @@ variable "location" {
   description               = "The Azure Region used"
 }
 
+variable "aks_cp_version" {
+  type = string
+  description = "AKS control plane version (and default node pool)"
+}
+
 variable "active_backend_pool" {
   description = "which backend to activate via the app gateway"
   type        = string 
@@ -30,9 +35,19 @@ variable "enable_green_pool" {
   description = "whether or not a green pool exists"
 }
 
+variable "aks_green_version" {
+  type = string
+  description = "AKS green pool version"
+}
+
 variable "drain_green_pool" {
   type = bool 
   description = "whether or not to taint the green pool to drain pods from it"
+}
+
+variable "aks_blue_version" {
+  type = string
+  description = "AKS blue pool version"
 }
 
 variable "drain_blue_pool" {
